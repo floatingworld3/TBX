@@ -1,0 +1,41 @@
+.tbx {
+  display: flex;
+  height: 18vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+}
+
+.big-letters>span {
+  font-size: 9vw;
+  font-weight: 700;
+  color: #f2f2f2;
+  text-shadow: -0.08em -0.04em 0.12em rgba(0, 0, 0, 0.9);
+}
+
+#tbx-header {
+  text-align: center;
+  color: white;
+}
+
+span:not(:first-child) {
+  margin-left: -0.2em;
+}
+
+img {
+  padding-top: 2%;
+
+}
+
+.pr-5 {
+  padding-right: 2em;
+}
+
+.pl-5 {
+  padding-left: 2em;
+}
+
+.pb-5 {
+  padding-bottom: 5em;
+}

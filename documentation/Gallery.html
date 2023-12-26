@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="home1.css">
+
+
+</head>
+
+
+
+<body id="parent">
+  <div id="side">
+    <nav class="toc">
+      <h2 id="tbx-header">
+        TBX v 2 User Guide
+      </h2>
+      <ul>
+        <li><a href="home.html">Introduction</a>
+          <ul>
+            <li><a href="home.html#arkit">ARKit Face Tracking with iPhone</a></li>
+            <li><a href="home.html#features">Features of TBX</a></li>
+            <li><a href="home.html#licensing">Licensing</a></li>
+            <li><a href="home.html#installation">Installation</a></li>
+          </ul>
+
+
+        </li>
+        <li>
+          <a href="QuickTutorial.html#quickTutorial">Quick Tutorial</a>
+          <ul>
+            <li><a href="QuickTutorial.html#step1">Step 1 - Creating CSV Tracking files</a></li>
+            <li><a href="QuickTutorial.html#step2">Step 2 - Real Time Performance capture</a></li>
+            <li><a href="QuickTutorial.html#step3">Step 3 - Importing Tracking Data into TBX</a></li>
+            <li><a href="QuickTutorial.html#step4">Step 4 - Extracting audio and image sequence from a clip</a></li>
+            <li><a href="QuickTutorial.html#step5">Step 5 - Converting to FBX</a></li>
+            <li><a href="QuickTutorial.html#step6">Step 6 - Exporting your FBX file</a></li>
+            <li><a href="QuickTutorial.html#step7">Step 7 - Using FBX to animate rigs</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="VideoTutorial.html#videoTutorial">Video Tutorial</a>
+          <ul>
+            <li><a href="VideoTutorial.html#vid">Creating FBX files from Tracking Data for Facial Animation</a></li>
+
+          </ul>
+        </li>
+        <li>
+          <a href="#Gallery">Gallery</a>
+          <ul>
+            <li><a href="#1">Sample performance capture using Andy Serkis reciting a Shakespeare soliloquy.</a></li>
+            <li><a href="#2">Sample of Performance capture from youtube video (no revision or editing)</a></li>
+            <li><a href="#3">Newsreader lip sync capture</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="Downloads.html#downloads">Downloads</a>
+          <ul>
+            <li><a href="Downloads.html#down">Sample News Reader CSV file and resultant FBX file from sample video</a>
+            </li>
+
+          </ul>
+        </li>
+        <li>
+          <a href="BPractice.html#bpractice">Best Practice when capturing performances</a>
+          <ul>
+            <li><a href="BPractice.html#step2">Set up</a></li>
+
+          </ul>
+        </li>
+        <li style="padding-bottom: 40px;">
+          <a href="FutureVersions.html#future">Future Versions</a>
+          <ul>
+            <li><a href="FutureVersions.html#fversions">Additional features</a></li>
+
+          </ul>
+        </li>
+      </ul>
+      <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <path stroke="#444" stroke-width="3" fill="transparent" stroke-dasharray="0, 0, 0, 1000" stroke-linecap="round"
+          stroke-linejoin="round" transform="translate(-0.5, -0.5)" />
+      </svg>
+    </nav>
+  </div>
+
+  <div id="main" style="">
+    <div id="Gallery">
+
+
+      <br>
+      <div id="1">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3">Sample performance capture using Andy Serkis reciting a Shakespeare soliloquy.
+          </h3>
+        </div>
+         <div style="display: flex; justify-content: center; margin-top: 20px;">
+          <video style="width: 90%; height:auto;" controls="controls autoplay">
+            <source src="assets/AndySerkis.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <br>
+      </div>
+      <div id="2">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3">Sample of Performance capture (no revision or editing)
+          </h3>
+        </div>
+         <div style="display: flex; justify-content: center; margin-top: 20px;">
+          <video style="width: 90%; height:auto;" controls="controls autoplay">
+            <source src="assets/Portia4.m4v" type="video/mp4" />
+          </video>
+        </div>
+        <br>
+      </div>
+      <div id="3">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3">Newsreader lip sync capture
+          </h3>
+           <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <video style="width: 90%; height:auto;" controls="controls autoplay">
+              <source src="assets/NewsReader.m4v" type="video/mp4" />
+            </video>
+          </div>
+           <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <video style="width: 90%; height:auto;" controls="controls autoplay">
+              <source src="assets/NewsreaderComparison.m4v" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
+        <br>
+      </div>
+    </div>
+
+
+</body>
+
+</html>
+<script>
+  var toc = document.querySelector('.toc');
+  var tocPath = document.querySelector('.toc-marker path');
+  var tocItems;
+  // Factor of screen size that the element must cross
+  // before it's considered visible
+  var TOP_MARGIN = 0.1,
+    BOTTOM_MARGIN = 0.2;
+  var pathLength;
+  var lastPathStart,
+    lastPathEnd;
+  window.addEventListener('resize', drawPath, false);
+  window.addEventListener('scroll', sync, false);
+  drawPath();
+  function drawPath() {
+    tocItems = [].slice.call(toc.querySelectorAll('li'));
+    // Cache element references and measurements
+    tocItems = tocItems.map(function (item) {
+      var anchor = item.querySelector('a');
+      var target = document.getElementById(anchor.getAttribute('href').slice(1));
+      return {
+        listItem: item,
+        anchor: anchor,
+        target: target
+      };
+    });
+    // Remove missing targets
+    tocItems = tocItems.filter(function (item) {
+      return !!item.target;
+    });
+    var path = [];
+    var pathIndent;
+    tocItems.forEach(function (item, i) {
+      var x = item.anchor.offsetLeft - 5,
+        y = item.anchor.offsetTop,
+        height = item.anchor.offsetHeight;
+      if (i === 0) {
+        path.push('M', x, y, 'L', x, y + height);
+        item.pathStart = 0;
+      }
+      else {
+        // Draw an additional line when there's a change in
+        // indent levels
+        if (pathIndent !== x) path.push('L', pathIndent, y);
+        path.push('L', x, y);
+        // Set the current path so that we can measure it
+        tocPath.setAttribute('d', path.join(' '));
+        item.pathStart = tocPath.getTotalLength() || 0;
+        path.push('L', x, y + height);
+      }
+      pathIndent = x;
+      tocPath.setAttribute('d', path.join(' '));
+      item.pathEnd = tocPath.getTotalLength();
+    });
+    pathLength = tocPath.getTotalLength();
+    sync();
+  }
+  function sync() {
+    var windowHeight = window.innerHeight;
+    var pathStart = pathLength,
+      pathEnd = 0;
+    var visibleItems = 0;
+    tocItems.forEach(function (item) {
+      var targetBounds = item.target.getBoundingClientRect();
+      if (targetBounds.bottom > windowHeight * TOP_MARGIN && targetBounds.top < windowHeight * (1 - BOTTOM_MARGIN)) {
+        pathStart = Math.min(item.pathStart, pathStart);
+        pathEnd = Math.max(item.pathEnd, pathEnd);
+        visibleItems += 1;
+        item.listItem.classList.add('visible');
+      }
+      else {
+        item.listItem.classList.remove('visible');
+      }
+    });
+    // Specify the visible path or hide the path altogether
+    // if there are no visible items
+    if (visibleItems > 0 && pathStart < pathEnd) {
+      if (pathStart !== lastPathStart || pathEnd !== lastPathEnd) {
+        tocPath.setAttribute('stroke-dashoffset', '1');
+        tocPath.setAttribute('stroke-dasharray', '1, ' + pathStart + ', ' + (pathEnd - pathStart) + ', ' + pathLength);
+        tocPath.setAttribute('opacity', 1);
+      }
+    }
+    else {
+      tocPath.setAttribute('opacity', 0);
+    }
+    lastPathStart = pathStart;
+    lastPathEnd = pathEnd;
+  }
+</script>

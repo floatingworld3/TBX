@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="home1.css">
+
+
+</head>
+
+
+
+<body id="parent">
+  <div id="side">
+    <nav class="toc">
+      <h2 id="tbx-header">
+        TBX v 2 User Guide
+      </h2>
+      
+      <ul>
+        <li><a href="#introduction">Introduction</a>
+          <ul>
+            <li id="mark"><a href="#arkit">ARKit Face Tracking with iPhone</a></li>
+            <li id="mark"><a href="#features">Features of TBX</a></li>
+            <li id="mark"><a href="#licensing">Licensing</a></li>
+            <li id="mark"><a href="#installation">Installation</a></li>
+          </ul>
+
+
+        </li>
+        <li>
+          <a href="QuickTutorial.html#qiuckTutorial">Quick Tutorial</a>
+          <ul>
+            <li id="mark"><a href="QuickTutorial.html#step1">Step 1 - Creating CSV Tracking files</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step2">Step 2 - Real Time Performance capture</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step3">Step 3 - Importing Tracking Data into TBX</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step4">Step 4 - Extracting audio and image sequence from a
+                clip</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step5">Step 5 - Converting to FBX</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step6">Step 6 - Exporting your FBX file</a></li>
+            <li id="mark"><a href="QuickTutorial.html#step7">Step 7 - Using FBX to animate rigs</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="VideoTutorial.html#videoTutorial">Video Tutorial</a>
+          <ul>
+            <li id="mark"><a href="VideoTutorial.html#vid">Creating FBX files from Tracking Data for Facial
+                Animation</a></li>
+
+          </ul>
+        </li>
+        <li>
+          <a href="AndySerkis.html#1">Gallery</a>
+          <ul>
+            <li id="mark"><a href="AndySerkis.html#1">Sample performance capture using Andy Serkis reciting a
+                Shakespeare soliloquy</a></li>
+            <li id="mark"><a href="PerfYoutube.html#2">Sample of Performance capture from youtube video (no revision or
+                editing)</a></li>
+            <li id="mark"><a href="lip.html#3">Newsreader lip sync capture</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="Downloads.html#downloads">Downloads</a>
+          <ul>
+            <li id="mark"><a href="Downloads.html#down">Sample News Reader CSV file and resultant FBX file from sample
+                video</a></li>
+
+          </ul>
+        </li>
+        <li>
+          <a href="BPractice.html#bpractice">Best Practice when capturing performances</a>
+          <ul>
+            <li id="mark"><a href="BPractice.html#step2">Set up</a></li>
+
+          </ul>
+        </li>
+        <li style="padding-bottom: 40px;">
+          <a href="FutureVersions.html#future">Future Versions</a>
+          <ul>
+            <li id="mark"><a href="FutureVersions.html#fversions">Additional features</a></li>
+
+          </ul>
+        </li>
+      </ul>
+      </li>
+      </ul>
+      <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+        <path stroke="#444" stroke-width="3" fill="transparent" stroke-dasharray="0, 0, 0, 1000" stroke-linecap="round"
+          stroke-linejoin="round" transform="translate(-0.5, -0.5)" />
+      </svg>
+    </nav>
+  </div>
+
+  <div id="main"  style="overflow: visible;">
+    <div id="introduction">
+      <div>
+        <div class="tbx big-letters">
+          <span style="margin-right: 10px;">T</span>
+          <span style="margin-right: 10px;">B</span>
+          <span style="margin-right: 10px;">X</span>
+          <span>V</span>
+          <span style="margin-right: 15px;">.</span>
+          <span style="margin-right: 10px;">2</span>
+        </div>
+        <div >
+          <img src="assets/app.jpg" style="width: 80%; height: auto;" class="center">
+        </div>
+
+
+
+        <div class=" pr-5 pl-5">
+          <p class="wrapper-dark">TBX is a utility for converting tracking data (usually facial performance capture
+            data) into
+
+            FBX files for use in 3d animation packages such as Maya, 3ds Max, Blender, Unreal,Unity
+
+            and others.
+
+            It is primarily designed to work in conjunction with the online tracking service at
+
+            www.RigVadar.com.
+
+          </p>
+          <img src="assets/output-onlinepngtools.png" style="width: 150px; height: auto; padding-left: 40%;"><br>
+          <a class="wrapper-dark" style="padding-left: 38%;"> Availble for Windows & Mac</a>
+        </div>
+
+
+        <br>
+        <div id="arkit">
+          <div class=" pr-5 pl-5">
+            <h3 class="h3">ADVANTAGES OF THE RIG VADAR SYSTEM OVER BESPOKE BLEND SHAPE SOLUTIONS
+            </h3>
+            <p class="wrapper-dark">
+              Using the ARKit with an iPhone leads to latency issues, and it's recommended technique for using supplied
+              video material is cumbersome and further increases delays.
+            </p>
+            <p class="wrapper-dark">
+              There are also privacy as well as copyright issues that users can run into, as iPhone saves data to the
+              cloud whilst covertly recording biometric data that users tacitly authorize.
+            </p>
+            <p class="wrapper-dark">
+              Furthermore the proprietary software that utilizes the facial expressions output of the ARKit, requires
+              complex and time consuming calibration and adjustment, especially around lip movements such as lip curl.
+            </p>
+            <p class="wrapper-dark">
+              But the biggest drawback is that it can not animate a rig controlled by bones skinned to the mesh. It can
+              not animate a mesh that has no morphs, which is a disadvantage as this type of rig is the easiest to set
+              up and animate quickly.
+            </p>
+            <p class="wrapper-dark">
+              The solution is a simple webcam or video based approach which records actual physical movement rather than
+              detecting particular micro expressions triggered by the ARKit algorithm.
+            </p>
+            <p class="wrapper-dark">
+              The rigs created by the Rigvadar app can be up and running in minutes, and can be refined into morphed
+              meshes easily.
+            </p>
+            <p class="wrapper-dark">
+              The FBX markers are deployed to control spline controls which in turn modulate morph targets as well as
+              bones.
+            </p>
+            <p class="wrapper-dark">
+              This preferred workflow utilizes TBX,which, in conjunction with the online performance capture service at
+              RigVadar.com, produces a cross platform solution in the form of an FBX file - which is portable across all
+              Autodesk products and elsewhere, quickly producing natural looking results faithful to the orginal,
+              capturing facial nuances and head movements without the need for excessive editing or calibration.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="features">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3"> FEATURES OF TBX
+          </h3>
+          <p class="wrapper-dark">
+            Converts the tracking data produced by the online tracker(including any additional points) into an FBX file
+            for export to many 3d apps.
+          </p>
+
+          <p class="wrapper-dark">
+            Audio file can be added to the FBX file or extracted from source video. </p>
+
+          <p class="wrapper-dark">
+            Output file location user-definable </p>
+
+          <p class="wrapper-dark">
+            The FBX animation can be clipped at any point, leaving static frames either side of the chosen frames, in
+            order to create layered animations from different takes or sections. </p>
+
+          <p class="wrapper-dark">Markers in the FBX can be resized and the UP vector chosen. </p>
+          <p class="wrapper-dark">The audio and folder of separated images can be extracted from the source video.</p>
+          <p class="wrapper-dark">Mask (outline of face) position can be tracked or if required, the root can be static.
+          </p>
+
+        </div>
+      </div>
+
+      <div id="licensing">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3"> LICENSING
+          </h3>
+          <p class="wrapper-dark">TBX is a free download to all subscribers of RigVadar.com.
+
+          </p>
+          <p class="wrapper-dark">
+            A time limited version is available for testing purposes.
+
+          </p>
+
+        </div>
+      </div>
+      <div id="installation">
+        <div class=" pr-5 pl-5">
+          <h3 class="h3"> INSTALLATION
+          </h3>
+          <p class="wrapper-dark">The TBX Installer is available online.
+
+
+          </p>
+          <p class="wrapper-dark">
+            Select the file path and desktop short cut if required.
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+
+</body>
+
+</html>
+<script>
+  var toc = document.querySelector('.toc');
+  var tocPath = document.querySelector('.toc-marker path');
+  var tocItems;
+  // Factor of screen size that the element must cross
+  // before it's considered visible
+  var TOP_MARGIN = 0.1,
+    BOTTOM_MARGIN = 0.2;
+  var pathLength;
+  var lastPathStart,
+    lastPathEnd;
+  window.addEventListener('resize', drawPath, false);
+  window.addEventListener('scroll', sync, false);
+  drawPath();
+  function drawPath() {
+    tocItems = [].slice.call(toc.querySelectorAll('li'));
+    // Cache element references and measurements
+    tocItems = tocItems.map(function (item) {
+      var anchor = item.querySelector('a');
+      var target = document.getElementById(anchor.getAttribute('href').slice(1));
+      return {
+        listItem: item,
+        anchor: anchor,
+        target: target
+      };
+    });
+    // Remove missing targets
+    tocItems = tocItems.filter(function (item) {
+      return !!item.target;
+    });
+    var path = [];
+    var pathIndent;
+    tocItems.forEach(function (item, i) {
+      var x = item.anchor.offsetLeft - 5,
+        y = item.anchor.offsetTop,
+        height = item.anchor.offsetHeight;
+      if (i === 0) {
+        path.push('M', x, y, 'L', x, y + height);
+        item.pathStart = 0;
+      }
+      else {
+        // Draw an additional line when there's a change in
+        // indent levels
+        if (pathIndent !== x) path.push('L', pathIndent, y);
+        path.push('L', x, y);
+        // Set the current path so that we can measure it
+        tocPath.setAttribute('d', path.join(' '));
+        item.pathStart = tocPath.getTotalLength() || 0;
+        path.push('L', x, y + height);
+      }
+      pathIndent = x;
+      tocPath.setAttribute('d', path.join(' '));
+      item.pathEnd = tocPath.getTotalLength();
+    });
+    pathLength = tocPath.getTotalLength();
+    sync();
+  }
+  function sync() {
+    var windowHeight = window.innerHeight;
+    var pathStart = pathLength,
+      pathEnd = 0;
+    var visibleItems = 0;
+    tocItems.forEach(function (item) {
+      var targetBounds = item.target.getBoundingClientRect();
+      if (targetBounds.bottom > windowHeight * TOP_MARGIN && targetBounds.top < windowHeight * (1 - BOTTOM_MARGIN)) {
+        pathStart = Math.min(item.pathStart, pathStart);
+        pathEnd = Math.max(item.pathEnd, pathEnd);
+        visibleItems += 1;
+        item.listItem.classList.add('visible');
+      }
+      else {
+        item.listItem.classList.remove('visible');
+      }
+    });
+    // Specify the visible path or hide the path altogether
+    // if there are no visible items
+    if (visibleItems > 0 && pathStart < pathEnd) {
+      if (pathStart !== lastPathStart || pathEnd !== lastPathEnd) {
+        tocPath.setAttribute('stroke-dashoffset', '1');
+        tocPath.setAttribute('stroke-dasharray', '1, ' + pathStart + ', ' + (pathEnd - pathStart) + ', ' + pathLength);
+        tocPath.setAttribute('opacity', 1);
+      }
+    }
+    else {
+      tocPath.setAttribute('opacity', 0);
+    }
+    lastPathStart = pathStart;
+    lastPathEnd = pathEnd;
+  }
+</script>

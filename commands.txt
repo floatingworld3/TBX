@@ -1,0 +1,2 @@
+build executable: C:\Python37/Scripts/pyinstaller  --onefile --noconsole --icon=./assets/tbx_logo.ico main.py
+note: add the assets folder with the .exe file
