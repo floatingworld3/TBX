@@ -8,6 +8,7 @@ from tkinter.tix import Tk
 from .styles import COLOR_TEXT, checkbox
 import fbx, fbxsip
 import numpy as np
+import pandas as pd
 import ffmpeg
 import webbrowser
 from moviepy.video.io.VideoFileClip import VideoFileClip
@@ -16,6 +17,7 @@ from .ui_file import LabelledWidget
 from .ui_file import PathExplorerFrame, ProgressBarFrame, MaskFrame, \
     SceneFrame, Button, CopyrightFrame, ClipFrame
 from .vadar_parser import RigVadarDataParser
+from .unreal_mappings import UnrealMapper
 
 VALID_HEADERS = ["Rig Vadar Facial Performance Analysis", ]
 SAVING_FRAMES_PER_SECOND = 30
@@ -33,14 +35,21 @@ class TxtToFbx(tk.Frame):
         self.progress = ProgressBarFrame(self)
         self.progress.grid(row=11, column=0, columnspan=12, pady=(0, 16), )
 
-        self.convert_button = Button(self, text="Convert FBX", command=self.convert, width=140)
-        self.convert_button.grid(row=10, column=0, columnspan=12, padx=20, pady=10)
-        
+        # Define column configurations (example)
+        for i in range(12):
+            self.grid_columnconfigure(i, weight=1)
+            
         self.video_to_frame_button = Button(self, text="Extract", command=self.video_to_frame, width=140)
         self.video_to_frame_button.grid(row=9, column=0, columnspan=12, padx=10, pady=10)
 
+        # Convert FBX Button
+        self.convert_button = Button(self, text="Convert FBX", command=self.convert, width=120)
+        self.convert_button.grid(row=10, column=0, columnspan=5, padx=5, pady=10)
+        
+        # Convert Unreal Button
         self.convert_unreal = Button(self, text="Convert Unreal", command=self.generate_unreal_csv, width=140)
-        self.convert_unreal.grid(row=10, column=4, columnspan=12, padx=20, pady=10)
+        self.convert_unreal.grid(row=10, column=5, columnspan=6, padx=5, pady=10)
+
 
         vadar_file_types = (("Rig vadar file", "*.txt"), ("Rig vadar file", "*.csv"))
         self.vadar_explorer = PathExplorerFrame(
@@ -344,12 +353,49 @@ class TxtToFbx(tk.Frame):
         return data
 
     def generate_unreal_csv(self):
-        
         app_state = self.get_app_state()
         vadar_path = app_state["vadar_path"]
         data = self.read_vadar(vadar_path, start=app_state.get("start_frame"), end=app_state.get("end_frame"))
-        for i, (node_id, node_data) in enumerate(data.items()):
-            print(node_id)
+        
+        mapper = UnrealMapper()
+        reference_frame = data.get("Meta", {}).get("ReferenceFrameNo", 1)
+        for unreal_node_id, marker in mapper.markers.items():
+            point_1_data = data.get(marker.points[0])
+            point_2_data = data.get(marker.points[1])
+
+            if point_1_data and point_2_data:
+                calculated_point_percentages = {}
+                print(unreal_node_id, marker.points)
+                reference_point = abs(point_2_data[f'{marker.component} pixels'][reference_frame] - point_1_data[f'{marker.component} pixels'][reference_frame])
+                for  i, frame in enumerate(point_1_data['Frame']):
+                    calculated_point = abs(point_2_data[f'{marker.component} pixels'][i] - point_1_data[f'{marker.component} pixels'][i])
+                    pct =  (reference_point / calculated_point ) 
+
+                    if unreal_node_id == 'JawOpen' and frame == 323:
+                        print(frame, pct)
+                        print('ref', point_2_data[f'{marker.component} pixels'][reference_frame] - point_1_data[f'{marker.component} pixels'][reference_frame])
+                        print('ref', point_2_data[f'{marker.component} pixels'][reference_frame] , point_1_data[f'{marker.component} pixels'][reference_frame])
+                        print('pt', point_2_data[f'{marker.component} pixels'][i] - point_1_data[f'{marker.component} pixels'][i])
+                        print('pt', point_2_data[f'{marker.component} pixels'][i] , point_1_data[f'{marker.component} pixels'][i])
+                    
+                    calculated_point_percentages[frame] = pct if pct > 0 else 0
+            elif point_1_data:
+                print(point_1_data.keys(), marker.component)
+                is_rotation_frame = 'Rot' in marker.component
+                reference_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][reference_frame]
+                for  i, frame in enumerate(point_1_data['Frame']):
+                    calculated_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][i]
+                    if is_rotation_frame:
+                        pct = math.degrees(calculated_point)
+                    else:
+                        pct = (reference_point / calculated_point ) 
+                    calculated_point_percentages[frame] = pct if pct > 0 else 0
+            else:
+                calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
+            marker.percentages = calculated_point_percentages
+        df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
+        df.to_excel("unreal.xlsx", index=None)
+
 
     def generate_scene(self, data, **opts):
         self.manager = fbx.FbxManager.Create()
@@ -540,3 +586,8 @@ def webm_to_mp4(input_file_path):
     #     print(e)
 
     return output_file_path
+
+def calculate_distance(x1, y1, x2, y2):
+    """Calculate the Euclidean distance between two points (x1, y1) and (x2, y2)."""
+    distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    return distance
