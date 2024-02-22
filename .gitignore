@@ -3,3 +3,6 @@ __pycache__
 .vscode
 installer/
 documentation.rar
+output
+dist
+build

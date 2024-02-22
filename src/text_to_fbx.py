@@ -18,6 +18,7 @@ from .ui_file import PathExplorerFrame, ProgressBarFrame, MaskFrame, \
     SceneFrame, Button, CopyrightFrame, ClipFrame
 from .vadar_parser import RigVadarDataParser
 from .unreal_mappings import UnrealMapper
+from .ui_file import TypedEntry
 
 VALID_HEADERS = ["Rig Vadar Facial Performance Analysis", ]
 SAVING_FRAMES_PER_SECOND = 30
@@ -40,15 +41,23 @@ class TxtToFbx(tk.Frame):
             self.grid_columnconfigure(i, weight=1)
             
         self.video_to_frame_button = Button(self, text="Extract", command=self.video_to_frame, width=140)
-        self.video_to_frame_button.grid(row=9, column=0, columnspan=12, padx=10, pady=10)
+        self.video_to_frame_button.grid(row=9, column=0, columnspan=5, padx=10, pady=10)
 
         # Convert FBX Button
-        self.convert_button = Button(self, text="Convert FBX", command=self.convert, width=120)
-        self.convert_button.grid(row=10, column=0, columnspan=5, padx=5, pady=10)
+        self.convert_button = Button(self, text="Convert FBX", command=self.convert, width=140)
+        self.convert_button.grid(row=10, column=0, columnspan=5, padx=5, pady=2)
         
         # Convert Unreal Button
         self.convert_unreal = Button(self, text="Convert Unreal", command=self.generate_unreal_csv, width=140)
-        self.convert_unreal.grid(row=10, column=5, columnspan=6, padx=5, pady=10)
+        self.convert_unreal.grid(row=11, column=0, columnspan=5, padx=5, pady=2)
+        self.unreal_root_scale = TypedEntry(self, entry_type=float, default=5.0, value_min=0.1, bd=0)
+        self.unreal_root_scale.grid(row=11, column=8)
+        self.unreal_root_scale_frame = LabelledWidget(
+            self, text="Unreal Root Scale",
+            label_pad=(0, 16),
+            widget=self.unreal_root_scale,
+        )
+        self.unreal_root_scale_frame.grid(row=11, column=6, sticky="e")
 
 
         vadar_file_types = (("Rig vadar file", "*.txt"), ("Rig vadar file", "*.csv"))
@@ -352,33 +361,89 @@ class TxtToFbx(tk.Frame):
                 self.progress.info("")
         return data
 
-    def generate_unreal_csv(self):
+    def generate_unreal_csv(self, **opts):
         app_state = self.get_app_state()
         vadar_path = app_state["vadar_path"]
         data = self.read_vadar(vadar_path, start=app_state.get("start_frame"), end=app_state.get("end_frame"))
+
+        try:
+            unreal_scale = float(self.unreal_root_scale.get())
+        except:
+            unreal_scale = 0
+        print('unreal scale', unreal_scale, type(unreal_scale))
+        src_width = data["Meta"]["SourceWidth"]
+        src_height = data["Meta"]["SourceHeight"]
+        root_scale = opts.get("root_scale", 5.)
+        scene_scale = 4  # 4 * 10
+        time_code = data['Meta'].get('TimeCode')
+        fps = data['Meta'].get('UnitsPerSecond', 30)
+        frame_count = data['Meta'].get('FrameCount', 0)
         
+
         mapper = UnrealMapper()
         reference_frame = data.get("Meta", {}).get("ReferenceFrameNo", 1)
+ 
+        # Loop through each node (marker)
         for unreal_node_id, marker in mapper.markers.items():
             point_1_data = data.get(marker.points[0])
             point_2_data = data.get(marker.points[1])
 
+            # If we have data for both markers
             if point_1_data and point_2_data:
                 calculated_point_percentages = {}
                 print(unreal_node_id, marker.points)
-                reference_point = abs(point_2_data[f'{marker.component} pixels'][reference_frame] - point_1_data[f'{marker.component} pixels'][reference_frame])
-                for  i, frame in enumerate(point_1_data['Frame']):
-                    calculated_point = abs(point_2_data[f'{marker.component} pixels'][i] - point_1_data[f'{marker.component} pixels'][i])
-                    pct =  (reference_point / calculated_point ) 
 
-                    if unreal_node_id == 'JawOpen' and frame == 323:
-                        print(frame, pct)
-                        print('ref', point_2_data[f'{marker.component} pixels'][reference_frame] - point_1_data[f'{marker.component} pixels'][reference_frame])
-                        print('ref', point_2_data[f'{marker.component} pixels'][reference_frame] , point_1_data[f'{marker.component} pixels'][reference_frame])
-                        print('pt', point_2_data[f'{marker.component} pixels'][i] - point_1_data[f'{marker.component} pixels'][i])
-                        print('pt', point_2_data[f'{marker.component} pixels'][i] , point_1_data[f'{marker.component} pixels'][i])
-                    
-                    calculated_point_percentages[frame] = pct if pct > 0 else 0
+                # Calculate the reference frame X and Y
+                ref_x1 = point_1_data['X pixels'][reference_frame]
+                ref_x2 = point_2_data['X pixels'][reference_frame]
+                ref_y1 = point_1_data['Y pixels'][reference_frame]
+                ref_y2 = point_2_data['Y pixels'][reference_frame]
+
+                ref_point_x_square = (ref_x2 - ref_x1)**2
+                ref_point_y_square = (ref_y2 - ref_y1)**2
+                reference_point_distance = math.sqrt(ref_point_x_square + ref_point_y_square)
+
+                ref_theta = math.atan( (ref_y2 - ref_y1)/ (ref_x2 - ref_x1) )
+                ref_x = reference_point_distance * math.cos(ref_theta)
+                ref_y = reference_point_distance * math.sin(ref_theta)
+
+                # Loop through each point
+                for  i, frame in enumerate(point_1_data['Frame']):
+                    try:
+                        # Calculate each frame's X and Y
+                        current_point_x1 = point_1_data['X pixels'][i]
+                        current_point_x2 = point_2_data['X pixels'][i]
+                        current_point_y1 = point_1_data['Y pixels'][i]
+                        current_point_y2 = point_2_data['Y pixels'][i]
+
+                        current_point_point_x_square = (current_point_x2 - current_point_x1)**2
+                        current_point_point_y_square = (current_point_y2 - current_point_y1)**2
+                        current_point_distance = math.sqrt(current_point_point_x_square + current_point_point_y_square)
+
+                        current_point_theta = math.atan( (current_point_y2 - current_point_y1)/ (current_point_x2 - current_point_x1) )
+                        current_point_x = current_point_distance * math.cos(current_point_theta)
+                        current_point_y = current_point_distance * math.sin(current_point_theta)
+
+                        # Calculate the percentage difference between the reference point and the current frame X and Y
+                        if marker.component.upper() == 'X':
+                            pct =  (1 - abs(current_point_x / ref_x ) ) if marker.inverted_percentage else ((abs(current_point_x / ref_x ) ) - 1)
+                        elif marker.component.upper() == 'Y':
+                            pct =  (1 - abs(current_point_y / ref_y ) ) if marker.inverted_percentage else ((abs(current_point_y / ref_y ) ) - 1)
+                        
+
+                        # if unreal_node_id == 'JawOpen' :
+                        #     print(unreal_node_id, frame, pct)
+                        #     print(frame, 'current_point_x=', current_point_x, 'ref_x=', ref_x, 'pct=', pct)
+                        #     print(frame, 'current_point_y=', current_point_y, 'ref_y=', ref_y, "ref_theta=", ref_theta, "current_point_theta=", current_point_theta)
+                        #     print(frame, 'current_point_y1=', current_point_y1, 'ref_y1=', ref_y1)
+                        #     print(frame, 'current_point_y2=', current_point_y2, 'ref_y2=', ref_y2)
+                        #     print(frame, 'current_point_x1=', current_point_x1, 'ref_x1=', ref_x1)
+                        #     print(frame, 'current_point_x2=', current_point_x2, 'ref_x2=', ref_x2)
+                    except Exception as e:
+                        print(unreal_node_id, frame, e)
+                        pct = 0
+                        
+                    calculated_point_percentages[frame] = (pct*unreal_scale) if pct > 0 else 0
             elif point_1_data:
                 print(point_1_data.keys(), marker.component)
                 is_rotation_frame = 'Rot' in marker.component
@@ -388,12 +453,19 @@ class TxtToFbx(tk.Frame):
                     if is_rotation_frame:
                         pct = math.degrees(calculated_point)
                     else:
-                        pct = (reference_point / calculated_point ) 
+                        pct = (reference_point / calculated_point ) -1 
                     calculated_point_percentages[frame] = pct if pct > 0 else 0
             else:
                 calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
             marker.percentages = calculated_point_percentages
+            
         df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
+        time_codes = []
+        for frame in range(int(frame_count)):
+            time_code = add_frame_to_timecode(time_code, fps) 
+            time_codes.append(time_code)
+        df.insert(0,'Timecode',  time_codes) 
+        df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
         df.to_excel("unreal.xlsx", index=None)
 
 
@@ -587,7 +659,22 @@ def webm_to_mp4(input_file_path):
 
     return output_file_path
 
-def calculate_distance(x1, y1, x2, y2):
-    """Calculate the Euclidean distance between two points (x1, y1) and (x2, y2)."""
-    distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-    return distance
+def timecode_to_frames(timecode, fps):
+    # Convert timecode to frames
+    hours, minutes, seconds, frames = map(int, timecode.split(':'))
+    total_frames = frames + (seconds + minutes * 60 + hours * 3600) * fps
+    return total_frames
+
+def frames_to_timecode(frames, fps):
+    # Convert frames to timecode
+    total_seconds = frames / fps
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    frames = frames % fps
+    return "{:02d}:{:02d}:{:02d}:{:02d}".format(int(hours), int(minutes), int(seconds), int(frames))
+
+def add_frame_to_timecode(timecode, fps):
+    current_frames = timecode_to_frames(timecode, fps)
+    new_frames = current_frames + 1
+    new_timecode = frames_to_timecode(new_frames, fps)
+    return new_timecode

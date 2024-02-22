@@ -1,2 +1,3 @@
-build executable: C:\Python37/Scripts/pyinstaller  --onefile --noconsole --icon=./assets/tbx_logo.ico main.py
-note: add the assets folder with the .exe file
+build executable: C:\Python37/Scripts/pyinstaller   --noconsole --icon=./assets/tbx_logo.ico main.py
+note: add the assets and documentation folders with the .exe file
+also put the ffmpeg file at the same place as the main.exe and delete it from the ffmpeg folder
