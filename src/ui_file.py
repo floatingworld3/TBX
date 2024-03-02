@@ -8,8 +8,10 @@ from PIL import Image, ImageTk
 
 class TypedEntry(tk.Entry):
     def __init__(self, master=None, default=None, entry_type=None, value_min=None,
-                 value_max=None, **kwargs):
+                 value_max=None, callback=None, index=None, **kwargs):
         self.content = tk.StringVar()
+        if callback:
+            self.content.trace_add('write', callback=callback)
         self.entry_type = entry_type if entry_type is not None else str
         tk.Entry.__init__(self, master, textvariable=self.content, **kwargs)
         self.kwargs = kwargs
@@ -25,6 +27,9 @@ class TypedEntry(tk.Entry):
         self.bind("<FocusOut>", self.handle_empty)
         self.bind("<Return>", self.handle_empty)
         self.configure_entry()
+
+    def add_callback(self, callback):
+        self.content.trace_add('write', callback=callback)
 
     def configure_entry(self):
         config = deepcopy(entry)

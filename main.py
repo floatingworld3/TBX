@@ -9,9 +9,9 @@ import os
 if __name__ == "__main__":
     print(os.path.dirname(os.path.abspath(__file__)))
 
-    root = tk.Tk(className='TBX V2.0')
+    root = tk.Tk(className='TBX V2.1')
     root.configure(bg=styles.COLOR_BASE)
-    root.title("TBX V2.0")
+    root.title("TBX V2.1")
     root.minsize(800, 600)
     if "linux" in sys.platform:
         img = tk.PhotoImage( file="assets/tbx_logo.png")

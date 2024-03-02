@@ -19,22 +19,72 @@ from .ui_file import PathExplorerFrame, ProgressBarFrame, MaskFrame, \
 from .vadar_parser import RigVadarDataParser
 from .unreal_mappings import UnrealMapper
 from .ui_file import TypedEntry
+import pickle
 
 VALID_HEADERS = ["Rig Vadar Facial Performance Analysis", ]
 SAVING_FRAMES_PER_SECOND = 30
 DOCUMENTATION_URL = os.path.join(os.path.abspath(os.getcwd()) , "documentation/home.html")
+
+
+
+class UnrealScaleWindow(object):
+    def __init__(self, master):
+        top=self.top=tk.Toplevel(master)
+        self.frame = tk.Frame(top, bg='#383838')
+        self.frame.grid(row=0, column=0)
+
+        mapper = UnrealMapper()
+        self.frame.inputs = []
+        self.frame.inputs_frame = []
+        self.mappings = {}
+        self.mappings_index = []
+        max_rows_per_column = 20
+
+        try:
+            with open('unreal_mappings.pkl' ,'rb') as f:
+                saved_inputs = pickle.load(f)
+        except FileNotFoundError:
+            saved_inputs = {}
+        
+        for i, marker in enumerate(mapper.markers.keys()):
+            column_index = i // max_rows_per_column
+            row_index = i % max_rows_per_column
+
+            self.mappings[marker] = i
+            self.mappings_index.append(marker)
+            self.frame.inputs.append(TypedEntry(self.frame, entry_type=int, default=float(saved_inputs.get(marker, 5)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
+            self.frame.inputs[-1].grid(row=row_index, column=1 + column_index * 2)
+            
+            self.frame.inputs_frame.append(LabelledWidget(
+                self.frame, text=marker,
+                label_pad=(16, 16),
+                widget=self.frame.inputs[-1],
+            ))
+            self.frame.inputs_frame[-1].grid(row=row_index, column=column_index * 2, sticky="e")
+
+    def on_scale_input_change(self, *args):
+        inputs = {self.mappings_index[i]: input.get() for i, input in enumerate(self.frame.inputs)}
+        with open('unreal_mappings.pkl' ,'wb') as f:
+            pickle.dump(inputs, f)
+
+    def get_state(self, marker):
+        return self.frame.inputs[self.mappings[marker]].get()
+
+    def cleanup(self):
+        self.top.destroy()
 
 class TxtToFbx(tk.Frame):
     valid_headers = [h.replace(" ", "") for h in VALID_HEADERS]
 
     def __init__(self, master, **kwargs):
         tk.Frame.__init__(self, master, bg=COLOR_BASE)
+        self.master = master
         self.pack(pady=15)
         self.scene = None
         self.manager = None
         self.parser = RigVadarDataParser()
         self.progress = ProgressBarFrame(self)
-        self.progress.grid(row=11, column=0, columnspan=12, pady=(0, 16), )
+        self.progress.grid(row=12, column=0, columnspan=12, pady=(16, 16), )
 
         # Define column configurations (example)
         for i in range(12):
@@ -50,12 +100,14 @@ class TxtToFbx(tk.Frame):
         # Convert Unreal Button
         self.convert_unreal = Button(self, text="Convert Unreal", command=self.generate_unreal_csv, width=140)
         self.convert_unreal.grid(row=11, column=0, columnspan=5, padx=5, pady=2)
-        self.unreal_root_scale = TypedEntry(self, entry_type=float, default=5.0, value_min=0.1, bd=0)
-        self.unreal_root_scale.grid(row=11, column=8)
+
+        self.unreal_scale_open_btn = Button(self, text="Edit scale", command=self.open_unreal_scale_window)
+        self.unreal_scale_open_btn.grid(row=11, column=8, padx=5, pady=2)
+
         self.unreal_root_scale_frame = LabelledWidget(
-            self, text="Unreal Root Scale",
+            self, text="Unreal Root Scale: Custom",
             label_pad=(0, 16),
-            widget=self.unreal_root_scale,
+            widget=self.unreal_scale_open_btn,
         )
         self.unreal_root_scale_frame.grid(row=11, column=6, sticky="e")
 
@@ -75,7 +127,7 @@ class TxtToFbx(tk.Frame):
         self.title_label.grid(row=0, column=4, sticky="e", padx=5, pady=5)
 
         self.help_button = Button(self, text="Help", command=self.launch_documentation, width=70, height=20)
-        self.help_button.grid(row=13, column=11, sticky="e", padx=(0,20), pady=5)
+        self.help_button.grid(row=12, column=11, sticky="e", padx=(0,20), pady=5)
 
         self.frame_title = LabelledWidget(
             self, text="Frames and Audio Extraction",
@@ -150,7 +202,7 @@ class TxtToFbx(tk.Frame):
         self.clip_frame.grid(row=4, column=0, columnspan=2, sticky="n", pady=(30, 16))
 
         self.copyright = CopyrightFrame(self)
-        self.copyright.grid(row=12, column=0, columnspan=12)
+        self.copyright.grid(row=13, column=0, columnspan=12)
 
         ### create video checkbox ###
         self.create_video_var = tk.BooleanVar()
@@ -198,12 +250,21 @@ class TxtToFbx(tk.Frame):
         self.create_audio_frame.grid(row=8, column=0, sticky="e")
         ####
 
+        self.unreal_popup = UnrealScaleWindow(self.master)
+        self.unreal_popup.cleanup()
         
         # webbrowser.open(url=help_url)
+        # self.open_unreal_scale_window()
 
 
     def launch_documentation(self):
         webbrowser.open(url=DOCUMENTATION_URL)
+
+    def open_unreal_scale_window(self):
+        self.unreal_popup = UnrealScaleWindow(self.master)
+        self.master.wait_window(self.unreal_popup.top)
+        # top = tk.Toplevel(self.master)
+        # top.title = "Unreal Engine scale"
 
 
     def video_to_frame(self):
@@ -362,31 +423,28 @@ class TxtToFbx(tk.Frame):
         return data
 
     def generate_unreal_csv(self, **opts):
+        self.progress.show()
+        self.progress.set(0)
         app_state = self.get_app_state()
         vadar_path = app_state["vadar_path"]
         data = self.read_vadar(vadar_path, start=app_state.get("start_frame"), end=app_state.get("end_frame"))
 
-        try:
-            unreal_scale = float(self.unreal_root_scale.get())
-        except:
-            unreal_scale = 0
-        print('unreal scale', unreal_scale, type(unreal_scale))
-        src_width = data["Meta"]["SourceWidth"]
-        src_height = data["Meta"]["SourceHeight"]
-        root_scale = opts.get("root_scale", 5.)
-        scene_scale = 4  # 4 * 10
+        unreal_scale = 5
         time_code = data['Meta'].get('TimeCode')
         fps = data['Meta'].get('UnitsPerSecond', 30)
         frame_count = data['Meta'].get('FrameCount', 0)
-        
 
         mapper = UnrealMapper()
         reference_frame = data.get("Meta", {}).get("ReferenceFrameNo", 1)
  
         # Loop through each node (marker)
-        for unreal_node_id, marker in mapper.markers.items():
+        for  i,(unreal_node_id, marker) in enumerate(mapper.markers.items()):
+            self.progress.set(int((i+1)/len(mapper.markers))*100)
             point_1_data = data.get(marker.points[0])
             point_2_data = data.get(marker.points[1])
+
+            detailed_scale = self.unreal_popup.get_state(marker.name)
+            detailed_scale = float(detailed_scale) if detailed_scale else unreal_scale
 
             # If we have data for both markers
             if point_1_data and point_2_data:
@@ -429,21 +487,11 @@ class TxtToFbx(tk.Frame):
                             pct =  (1 - abs(current_point_x / ref_x ) ) if marker.inverted_percentage else ((abs(current_point_x / ref_x ) ) - 1)
                         elif marker.component.upper() == 'Y':
                             pct =  (1 - abs(current_point_y / ref_y ) ) if marker.inverted_percentage else ((abs(current_point_y / ref_y ) ) - 1)
-                        
-
-                        # if unreal_node_id == 'JawOpen' :
-                        #     print(unreal_node_id, frame, pct)
-                        #     print(frame, 'current_point_x=', current_point_x, 'ref_x=', ref_x, 'pct=', pct)
-                        #     print(frame, 'current_point_y=', current_point_y, 'ref_y=', ref_y, "ref_theta=", ref_theta, "current_point_theta=", current_point_theta)
-                        #     print(frame, 'current_point_y1=', current_point_y1, 'ref_y1=', ref_y1)
-                        #     print(frame, 'current_point_y2=', current_point_y2, 'ref_y2=', ref_y2)
-                        #     print(frame, 'current_point_x1=', current_point_x1, 'ref_x1=', ref_x1)
-                        #     print(frame, 'current_point_x2=', current_point_x2, 'ref_x2=', ref_x2)
                     except Exception as e:
                         print(unreal_node_id, frame, e)
                         pct = 0
                         
-                    calculated_point_percentages[frame] = (pct*unreal_scale) if pct > 0 else 0
+                    calculated_point_percentages[frame] = (pct*detailed_scale) if pct > 0 else 0
             elif point_1_data:
                 print(point_1_data.keys(), marker.component)
                 is_rotation_frame = 'Rot' in marker.component
@@ -466,7 +514,13 @@ class TxtToFbx(tk.Frame):
             time_codes.append(time_code)
         df.insert(0,'Timecode',  time_codes) 
         df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
-        df.to_excel("unreal.xlsx", index=None)
+        full_output_path = '/'.join(vadar_path.split('/')[:-1]) 
+        df.to_excel(full_output_path+ '/Unreal.xlsx', index=None)
+        df.to_csv(full_output_path+ '/Unreal.csv', index=None)
+        self.progress.hide()
+        self.progress.info(f"Exported file to {full_output_path+ '/Unreal.csv'}")
+        print(full_output_path)
+
 
 
     def generate_scene(self, data, **opts):
