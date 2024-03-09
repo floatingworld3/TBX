@@ -25,7 +25,7 @@ VALID_HEADERS = ["Rig Vadar Facial Performance Analysis", ]
 SAVING_FRAMES_PER_SECOND = 30
 DOCUMENTATION_URL = os.path.join(os.path.abspath(os.getcwd()) , "documentation/home.html")
 
-
+UNREAL_SCALE_FILE = 'unreal_mappings.pkl'
 
 class UnrealScaleWindow(object):
     def __init__(self, master):
@@ -41,7 +41,7 @@ class UnrealScaleWindow(object):
         max_rows_per_column = 20
 
         try:
-            with open('unreal_mappings.pkl' ,'rb') as f:
+            with open(UNREAL_SCALE_FILE ,'rb') as f:
                 saved_inputs = pickle.load(f)
         except Exception:
             saved_inputs = {}
@@ -65,7 +65,7 @@ class UnrealScaleWindow(object):
     def on_scale_input_change(self, *args):
         inputs = {self.mappings_index[i]: input.get() for i, input in enumerate(self.frame.inputs)}
         if len(inputs.keys()) == 61:
-            with open('unreal_mappings.pkl' ,'wb') as f:
+            with open(UNREAL_SCALE_FILE ,'wb') as f:
                 pickle.dump(inputs, f)
                 print()
 
@@ -106,13 +106,13 @@ class TxtToFbx(tk.Frame):
         self.unreal_scale_open_btn = Button(self, text="Edit scale", command=self.open_unreal_scale_window)
         self.unreal_scale_open_btn.grid(row=11, column=8, padx=5, pady=2)
 
+        unreal_scale_file_exists = os.path.exists(UNREAL_SCALE_FILE)
         self.unreal_root_scale_frame = LabelledWidget(
-            self, text="Unreal Root Scale: Custom",
+            self, text=f"Unreal Root Scale: {'Custom' if unreal_scale_file_exists else 'Default'}",
             label_pad=(0, 16),
             widget=self.unreal_scale_open_btn,
         )
         self.unreal_root_scale_frame.grid(row=11, column=6, sticky="e")
-
 
         vadar_file_types = (("Rig vadar file", "*.txt"), ("Rig vadar file", "*.csv"))
         self.vadar_explorer = PathExplorerFrame(
