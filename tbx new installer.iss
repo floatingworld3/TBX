@@ -54,50 +54,150 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+
+
+
 [Files]
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_bz2.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_ctypes.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_decimal.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_elementtree.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_hashlib.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_lzma.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_multiprocessing.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_queue.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_socket.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_ssl.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_tkinter.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\base_library.zip"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\fbx.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\fbxsip.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\ffmpeg.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libcrypto-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libopenblas.XWYDX2IKJW2NMTWSFYNGFUWKQU3LYTCZ.gfortran-win_amd64.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libssl-1_1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\python37.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tcl86t.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tk86t.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\VCRUNTIME140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\VCRUNTIME140_1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\altgraph-0.17.2.dist-info\*"; DestDir: "{app}\altgraph-0.17.2.dist-info"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_asyncio.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_bz2.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_cffi_backend.cp37-win_amd64.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_ctypes.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_decimal.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_elementtree.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_hashlib.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_lzma.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_multiprocessing.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_overlapped.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_queue.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_socket.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_sqlite3.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_ssl.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\_tkinter.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-console-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-datetime-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-debug-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-errorhandling-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-file-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-file-l1-2-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-file-l2-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-handle-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-heap-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-interlocked-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-libraryloader-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-localization-l1-2-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-memory-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-namedpipe-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-processenvironment-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-processthreads-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-processthreads-l1-1-1.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-profile-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-rtlsupport-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-string-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-synch-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-synch-l1-2-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-sysinfo-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-timezone-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-core-util-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-conio-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-convert-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-environment-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-filesystem-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-heap-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-locale-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-math-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-multibyte-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-process-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-runtime-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-stdio-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-string-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-time-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\api-ms-win-crt-utility-l1-1-0.dll*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\assets\*"; DestDir: "{app}\assets"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\main.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\base_library.zip"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\certifi\*"; DestDir: "{app}\certifi"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\documentation\*"; DestDir: "{app}\documentation"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\fbx.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\fbxsip.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\ffmpeg.exe*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\greenlet\*"; DestDir: "{app}\greenlet"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\imageio\*"; DestDir: "{app}\imageio"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\imageio_ffmpeg\*"; DestDir: "{app}\imageio_ffmpeg"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\importlib_metadata-4.11.3.dist-info\*"; DestDir: "{app}\info"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\IPython\*"; DestDir: "{app}\IPython"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\jedi\*"; DestDir: "{app}\jedi"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\kiwisolver.cp37-win_amd64.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\lib_arpack-.7TQXDBTMUFOO5AB4ZKS2WPRZAGXNAPTE.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\lib_blas_su.X3MTOIZ5PXAH5LOTFDAJVXR3245XHGNP.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\lib_dop-f2p.H5ICLGM4NKU5EDEIUJIKVMQ6YNOF7IZ6.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\lib_test_fo.JF5HTWMUPBXWGAYEBVEJU3OZAHTSVKCT.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libansari.R6EA3HQP5KZ6TAXU4Y4ZVTRPT7UVA53Z.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libbanded5x.ESF6LBN6R5UJFVJPSFF43URXBMGC3QEN.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libbispeu.7AH3PCQ2E2NGLC3AQD7FFAH73KGJTZCJ.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libblkdta00.4WSITLJKIDKQOUHFTTKLQEGVSSFMMZS7.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libchkder.G7WSOGIYYQO3UWFVEZ3PPXCXR53ADVPA.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libcobyla2.25EVUSEBAW7VKISARB7LO3UGZPN2HXE3.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libcrypto-1_1.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libd_odr.THQQ64REMK7ZMZRF2IS7Z5IEON7RSLK5.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdcsrch.I2AOPDCXAPDRFNPWY55H5UE7XZSU5CVN.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdet.ZR5WBP5EE4H6A2LANGYSEUMRZX2FURDL.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdfft.M3WGVBMYA2L7GTSQSBCA5QKI6BDRF2IU.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdfitpack.TCSQXP62XZEF2TJFDUO4ZNU2JINJ5MPX.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdgamln.HZLYI765YOFRVQOCNKFL5RM2SXIDZ2F6.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libdqag.Y76S4TW6JPXNBNXUTVXLMXJ7XT6OMWLT.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libgetbreak.YQM3SI6KRD7DFG7DL7B6RJEWQS4O6YW3.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\liblbfgsb.KB47UAMDWJMP5C4XWQK5Y34RR3LKHELH.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\liblsoda-f2.FIRRCAPSEZOIP3OLBLML4456LCBTH74K.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libmvndst.5VXNIPAPINAF5NIHXAFNA4OTHOPNDEWG.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libnnls.4HUTGAJQTI623WTX372VAIIWXRLC62YU.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libopenblas.3HBPCJB5BPQGKWVZAVEBXNNJ2Q2G3TUP.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libopenblas.XWYDX2IKJW2NMTWSFYNGFUWKQU3LYTCZ.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libslsqp_op.RGGN6ZOFD2K47X7YRNDYCM7JFP4AGLER.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libsodium-ac42d648.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libspecfun.LQCTHMCYNULEOOGKIO6AGREE6D6V37RU.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libssl-1_1.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libvode-f2p.6FM2HIVOTF5QYRFPB7NAXVUGSWK7BJAT.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libwrap_dum.E2DMRP662KYHKE5OXJQOLMJBUYPRL4WK.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libwrap_dum.PULJDUMZZKIM7OUS2TIYPZE4PPPRMQA2.gfortran-win_amd64.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\libzmq-v141-mt-4_3_4-0a6f51ca.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\markupsafe\*"; DestDir: "{app}\markupsafe"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\matplotlib\*"; DestDir: "{app}\matplotlib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\msvcp140.dll*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\numpy\*"; DestDir: "{app}\numpy"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\PIL\*"; DestDir: "{app}\PIL"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pandas\*"; DestDir: "{app}\pandas"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pyinstaller-4.10.dist-info\*"; DestDir: "{app}\pyinstaller-4.10.dist-info"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\setuptools-47.1.0.dist-info\*"; DestDir: "{app}\setuptools-47.1.0.dist-info"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\parso\*"; DestDir: "{app}\parso"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\PIL\*"; DestDir: "{app}\PIL"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pip-24.0.dist-info\*"; DestDir: "{app}\info"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\psutil\*"; DestDir: "{app}\psutil"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pyexpat.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\python3.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\python37.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\Pythonwin\*"; DestDir: "{app}\Pythonwin"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pytz\*"; DestDir: "{app}\pytz"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pywin32_system32\*"; DestDir: "{app}\pywin32_system32"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\pyzmq.libs\*"; DestDir: "{app}\libs"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\scipy\*"; DestDir: "{app}\scipy"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\select.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\setuptools-47.1.0.dist-info\*"; DestDir: "{app}\info"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\sqlalchemy\*"; DestDir: "{app}\sqlalchemy"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\sqlite3.dll*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tcl\*"; DestDir: "{app}\tcl"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tcl8\*"; DestDir: "{app}\tcl8"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tcl86t.dll*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tk\*"; DestDir: "{app}\tk"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tk86t.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\tornado\*"; DestDir: "{app}\tornado"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\ucrtbase.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\unicodedata.pyd*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\VCRUNTIME140.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\vcruntime140_1.dll*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\wcwidth\*"; DestDir: "{app}\wcwidth"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\win32\*"; DestDir: "{app}\win32"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\win32com\*"; DestDir: "{app}\win32com"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Yassine\Documents\upwork\tbx2\TBXSOURCE\TBXSOURCE\dist\main\zmq\*"; DestDir: "{app}\zmq"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

@@ -43,7 +43,7 @@ class UnrealScaleWindow(object):
         try:
             with open('unreal_mappings.pkl' ,'rb') as f:
                 saved_inputs = pickle.load(f)
-        except FileNotFoundError:
+        except Exception:
             saved_inputs = {}
         
         for i, marker in enumerate(mapper.markers.keys()):
@@ -52,7 +52,7 @@ class UnrealScaleWindow(object):
 
             self.mappings[marker] = i
             self.mappings_index.append(marker)
-            self.frame.inputs.append(TypedEntry(self.frame, entry_type=int, default=float(saved_inputs.get(marker, 5)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
+            self.frame.inputs.append(TypedEntry(self.frame, entry_type=float, default=float(saved_inputs.get(marker, 5)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
             self.frame.inputs[-1].grid(row=row_index, column=1 + column_index * 2)
             
             self.frame.inputs_frame.append(LabelledWidget(
@@ -64,8 +64,10 @@ class UnrealScaleWindow(object):
 
     def on_scale_input_change(self, *args):
         inputs = {self.mappings_index[i]: input.get() for i, input in enumerate(self.frame.inputs)}
-        with open('unreal_mappings.pkl' ,'wb') as f:
-            pickle.dump(inputs, f)
+        if len(inputs.keys()) == 61:
+            with open('unreal_mappings.pkl' ,'wb') as f:
+                pickle.dump(inputs, f)
+                print()
 
     def get_state(self, marker):
         return self.frame.inputs[self.mappings[marker]].get()
@@ -449,7 +451,6 @@ class TxtToFbx(tk.Frame):
             # If we have data for both markers
             if point_1_data and point_2_data:
                 calculated_point_percentages = {}
-                print(unreal_node_id, marker.points)
 
                 # Calculate the reference frame X and Y
                 ref_x1 = point_1_data['X pixels'][reference_frame]
@@ -491,9 +492,16 @@ class TxtToFbx(tk.Frame):
                         print(unreal_node_id, frame, e)
                         pct = 0
                         
-                    calculated_point_percentages[frame] = (pct*detailed_scale) if pct > 0 else 0
+                    scaled_pct = pct*detailed_scale
+                    # pct should be between 0 and 1 
+                    if scaled_pct > 1:
+                        calculated_point_percentages[frame] = 1
+                    elif scaled_pct > 0:
+                        calculated_point_percentages[frame] = scaled_pct
+                    else:
+                        calculated_point_percentages[frame] = 0
+                        
             elif point_1_data:
-                print(point_1_data.keys(), marker.component)
                 is_rotation_frame = 'Rot' in marker.component
                 reference_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][reference_frame]
                 for  i, frame in enumerate(point_1_data['Frame']):
@@ -502,7 +510,7 @@ class TxtToFbx(tk.Frame):
                         pct = math.degrees(calculated_point)
                     else:
                         pct = (reference_point / calculated_point ) -1 
-                    calculated_point_percentages[frame] = pct if pct > 0 else 0
+                    calculated_point_percentages[frame] = pct 
             else:
                 calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
             marker.percentages = calculated_point_percentages
@@ -510,15 +518,15 @@ class TxtToFbx(tk.Frame):
         df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
         time_codes = []
         for frame in range(int(frame_count)):
-            time_code = add_frame_to_timecode(time_code, fps) 
             time_codes.append(time_code)
+            time_code = add_frame_to_timecode(time_code, fps) 
         df.insert(0,'Timecode',  time_codes) 
         df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
         full_output_path = '/'.join(vadar_path.split('/')[:-1]) 
-        df.to_excel(full_output_path+ '/Unreal.xlsx', index=None)
-        df.to_csv(full_output_path+ '/Unreal.csv', index=None)
+        df.to_excel(full_output_path+ '/Metahuman.xlsx', index=None)
+        df.to_csv(full_output_path+ '/Metahuman.csv', index=None)
         self.progress.hide()
-        self.progress.info(f"Exported file to {full_output_path+ '/Unreal.csv'}")
+        self.progress.info(f"Exported file to {full_output_path+ '/Metahuman.csv'}")
         print(full_output_path)
 
 
