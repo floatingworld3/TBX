@@ -46,17 +46,17 @@ class UnrealScaleWindow(object):
         except Exception:
             saved_inputs = {}
         
-        for i, marker in enumerate(mapper.markers.keys()):
+        for i, marker in enumerate(mapper.markers.values()):
             column_index = i // max_rows_per_column
             row_index = i % max_rows_per_column
 
-            self.mappings[marker] = i
-            self.mappings_index.append(marker)
-            self.frame.inputs.append(TypedEntry(self.frame, entry_type=float, default=float(saved_inputs.get(marker, 5)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
+            self.mappings[marker.name] = i
+            self.mappings_index.append(marker.name)
+            self.frame.inputs.append(TypedEntry(self.frame, entry_type=float, default=float(saved_inputs.get(marker.name, marker.default_scale)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
             self.frame.inputs[-1].grid(row=row_index, column=1 + column_index * 2)
             
             self.frame.inputs_frame.append(LabelledWidget(
-                self.frame, text=marker,
+                self.frame, text=marker.name,
                 label_pad=(16, 16),
                 widget=self.frame.inputs[-1],
             ))
@@ -268,7 +268,6 @@ class TxtToFbx(tk.Frame):
         # top = tk.Toplevel(self.master)
         # top.title = "Unreal Engine scale"
 
-
     def video_to_frame(self):
         create_frames = self.create_video_var.get()
         create_audio = self.create_audio_var.get()
@@ -425,109 +424,114 @@ class TxtToFbx(tk.Frame):
         return data
 
     def generate_unreal_csv(self, **opts):
-        self.progress.show()
-        self.progress.set(0)
-        app_state = self.get_app_state()
-        vadar_path = app_state["vadar_path"]
-        data = self.read_vadar(vadar_path, start=app_state.get("start_frame"), end=app_state.get("end_frame"))
+        try:
+            self.progress.show()
+            self.progress.set(0)
+            app_state = self.get_app_state()
+            vadar_path = app_state["vadar_path"]
+            data = self.read_vadar(vadar_path, start=app_state.get("start_frame"), end=app_state.get("end_frame"))
 
-        unreal_scale = 5
-        time_code = data['Meta'].get('TimeCode')
-        fps = data['Meta'].get('UnitsPerSecond', 30)
-        frame_count = data['Meta'].get('FrameCount', 0)
+            unreal_scale = 5
+            time_code = data['Meta'].get('TimeCode')
+            fps = data['Meta'].get('UnitsPerSecond', 30)
+            frame_count = data['Meta'].get('FrameCount', 0)
 
-        mapper = UnrealMapper()
-        reference_frame = data.get("Meta", {}).get("ReferenceFrameNo", 1)
- 
-        # Loop through each node (marker)
-        for  i,(unreal_node_id, marker) in enumerate(mapper.markers.items()):
-            self.progress.set(int((i+1)/len(mapper.markers))*100)
-            point_1_data = data.get(marker.points[0])
-            point_2_data = data.get(marker.points[1])
+            mapper = UnrealMapper()
+            reference_frame = data.get("Meta", {}).get("ReferenceFrameNo", 1)
+    
+            # Loop through each node (marker)
+            for  i,(unreal_node_id, marker) in enumerate(mapper.markers.items()):
+                self.progress.set(int((i+1)/len(mapper.markers))*100)
+                point_1_data = data.get(marker.points[0])
+                point_2_data = data.get(marker.points[1])
 
-            detailed_scale = self.unreal_popup.get_state(marker.name)
-            detailed_scale = float(detailed_scale) if detailed_scale else unreal_scale
+                detailed_scale = self.unreal_popup.get_state(marker.name)
+                detailed_scale = float(detailed_scale) if detailed_scale else unreal_scale
 
-            # If we have data for both markers
-            if point_1_data and point_2_data:
-                calculated_point_percentages = {}
+                # If we have data for both markers
+                if point_1_data and point_2_data:
+                    calculated_point_percentages = {}
 
-                # Calculate the reference frame X and Y
-                ref_x1 = point_1_data['X pixels'][reference_frame]
-                ref_x2 = point_2_data['X pixels'][reference_frame]
-                ref_y1 = point_1_data['Y pixels'][reference_frame]
-                ref_y2 = point_2_data['Y pixels'][reference_frame]
+                    # Calculate the reference frame X and Y
+                    ref_x1 = point_1_data['X pixels'][reference_frame]
+                    ref_x2 = point_2_data['X pixels'][reference_frame]
+                    ref_y1 = point_1_data['Y pixels'][reference_frame]
+                    ref_y2 = point_2_data['Y pixels'][reference_frame]
 
-                ref_point_x_square = (ref_x2 - ref_x1)**2
-                ref_point_y_square = (ref_y2 - ref_y1)**2
-                reference_point_distance = math.sqrt(ref_point_x_square + ref_point_y_square)
+                    ref_point_x_square = (ref_x2 - ref_x1)**2
+                    ref_point_y_square = (ref_y2 - ref_y1)**2
+                    reference_point_distance = math.sqrt(ref_point_x_square + ref_point_y_square)
 
-                ref_theta = math.atan( (ref_y2 - ref_y1)/ (ref_x2 - ref_x1) )
-                ref_x = reference_point_distance * math.cos(ref_theta)
-                ref_y = reference_point_distance * math.sin(ref_theta)
+                    ref_theta = math.atan( (ref_y2 - ref_y1)/ (ref_x2 - ref_x1) )
+                    ref_x = reference_point_distance * math.cos(ref_theta)
+                    ref_y = reference_point_distance * math.sin(ref_theta)
 
-                # Loop through each point
-                for  i, frame in enumerate(point_1_data['Frame']):
-                    try:
-                        # Calculate each frame's X and Y
-                        current_point_x1 = point_1_data['X pixels'][i]
-                        current_point_x2 = point_2_data['X pixels'][i]
-                        current_point_y1 = point_1_data['Y pixels'][i]
-                        current_point_y2 = point_2_data['Y pixels'][i]
+                    # Loop through each point
+                    for  i, frame in enumerate(point_1_data['Frame']):
+                        try:
+                            # Calculate each frame's X and Y
+                            current_point_x1 = point_1_data['X pixels'][i]
+                            current_point_x2 = point_2_data['X pixels'][i]
+                            current_point_y1 = point_1_data['Y pixels'][i]
+                            current_point_y2 = point_2_data['Y pixels'][i]
 
-                        current_point_point_x_square = (current_point_x2 - current_point_x1)**2
-                        current_point_point_y_square = (current_point_y2 - current_point_y1)**2
-                        current_point_distance = math.sqrt(current_point_point_x_square + current_point_point_y_square)
+                            current_point_point_x_square = (current_point_x2 - current_point_x1)**2
+                            current_point_point_y_square = (current_point_y2 - current_point_y1)**2
+                            current_point_distance = math.sqrt(current_point_point_x_square + current_point_point_y_square)
 
-                        current_point_theta = math.atan( (current_point_y2 - current_point_y1)/ (current_point_x2 - current_point_x1) )
-                        current_point_x = current_point_distance * math.cos(current_point_theta)
-                        current_point_y = current_point_distance * math.sin(current_point_theta)
+                            current_point_theta = math.atan( (current_point_y2 - current_point_y1)/ (current_point_x2 - current_point_x1) )
+                            current_point_x = current_point_distance * math.cos(current_point_theta)
+                            current_point_y = current_point_distance * math.sin(current_point_theta)
 
-                        # Calculate the percentage difference between the reference point and the current frame X and Y
-                        if marker.component.upper() == 'X':
-                            pct =  (1 - abs(current_point_x / ref_x ) ) if marker.inverted_percentage else ((abs(current_point_x / ref_x ) ) - 1)
-                        elif marker.component.upper() == 'Y':
-                            pct =  (1 - abs(current_point_y / ref_y ) ) if marker.inverted_percentage else ((abs(current_point_y / ref_y ) ) - 1)
-                    except Exception as e:
-                        print(unreal_node_id, frame, e)
-                        pct = 0
-                        
-                    scaled_pct = pct*detailed_scale
-                    # pct should be between 0 and 1 
-                    if scaled_pct > 1:
-                        calculated_point_percentages[frame] = 1
-                    elif scaled_pct > 0:
-                        calculated_point_percentages[frame] = scaled_pct
-                    else:
-                        calculated_point_percentages[frame] = 0
-                        
-            elif point_1_data:
-                is_rotation_frame = 'Rot' in marker.component
-                reference_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][reference_frame]
-                for  i, frame in enumerate(point_1_data['Frame']):
-                    calculated_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][i]
-                    if is_rotation_frame:
-                        pct = math.degrees(calculated_point)
-                    else:
-                        pct = (reference_point / calculated_point ) -1 
-                    calculated_point_percentages[frame] = pct 
-            else:
-                calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
-            marker.percentages = calculated_point_percentages
-            
-        df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
-        time_codes = []
-        for frame in range(int(frame_count)):
-            time_codes.append(time_code)
-            time_code = add_frame_to_timecode(time_code, fps) 
-        df.insert(0,'Timecode',  time_codes) 
-        df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
-        full_output_path = '/'.join(vadar_path.split('/')[:-1]) 
-        df.to_excel(full_output_path+ '/Metahuman.xlsx', index=None)
-        df.to_csv(full_output_path+ '/Metahuman.csv', index=None)
-        self.progress.hide()
-        self.progress.info(f"Exported file to {full_output_path+ '/Metahuman.csv'}")
-        print(full_output_path)
+                            # Calculate the percentage difference between the reference point and the current frame X and Y
+                            if marker.component.upper() == 'X':
+                                pct =  (1 - abs(current_point_x / ref_x ) ) if marker.inverted_percentage else ((abs(current_point_x / ref_x ) ) - 1)
+                            elif marker.component.upper() == 'Y':
+                                pct =  (1 - abs(current_point_y / ref_y ) ) if marker.inverted_percentage else ((abs(current_point_y / ref_y ) ) - 1)
+                        except Exception as e:
+                            print(unreal_node_id, frame, e)
+                            pct = 0
+                            
+                        scaled_pct = pct*detailed_scale
+                        # pct should be between 0 and 1 
+                        if scaled_pct > 1:
+                            calculated_point_percentages[frame] = 1
+                        elif scaled_pct > 0:
+                            calculated_point_percentages[frame] = scaled_pct
+                        else:
+                            calculated_point_percentages[frame] = 0
+                            
+                elif point_1_data:
+                    is_rotation_frame = 'Rot' in marker.component
+                    reference_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][reference_frame]
+                    for  i, frame in enumerate(point_1_data['Frame']):
+                        calculated_point = point_1_data[f'{marker.component}{"" if "Rot" in marker.component else " pixels"}'][i]
+                        if is_rotation_frame:
+                            pct = math.degrees(calculated_point)
+                        else:
+                            pct = (reference_point / calculated_point ) -1 
+                        calculated_point_percentages[frame] = pct 
+                else:
+                    calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
+                marker.percentages = calculated_point_percentages
+                
+            df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
+            time_codes = []
+            for frame in range(int(frame_count)):
+                time_codes.append(time_code)
+                time_code = add_frame_to_timecode(time_code, fps) 
+            df.insert(0,'Timecode',  time_codes) 
+            df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
+            full_output_path = '/'.join(vadar_path.split('/')[:-1]) 
+            df.to_excel(full_output_path+ '/Metahuman.xlsx', index=None)
+            df.to_csv(full_output_path+ '/Metahuman.csv', index=None)
+            self.progress.hide()
+            self.progress.info(f"Exported file to {full_output_path+ '/Metahuman.csv'}")
+            print(full_output_path)
+        except Exception:
+            self.progress.hide()
+            self.progress.error(f"Could not convert. Please provide a valid tracking file.")
+
 
 
 
