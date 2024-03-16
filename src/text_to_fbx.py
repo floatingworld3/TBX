@@ -52,7 +52,7 @@ class UnrealScaleWindow(object):
 
             self.mappings[marker.name] = i
             self.mappings_index.append(marker.name)
-            self.frame.inputs.append(TypedEntry(self.frame, entry_type=float, default=float(saved_inputs.get(marker.name, marker.default_scale)), value_min=0.1, bd=0, callback=self.on_scale_input_change, index=i))
+            self.frame.inputs.append(TypedEntry(self.frame, entry_type=float, default=float(saved_inputs.get(marker.name, marker.default_scale)), value_min=0, bd=0, callback=self.on_scale_input_change, index=i))
             self.frame.inputs[-1].grid(row=row_index, column=1 + column_index * 2)
             
             self.frame.inputs_frame.append(LabelledWidget(
@@ -447,7 +447,8 @@ class TxtToFbx(tk.Frame):
 
                 detailed_scale = self.unreal_popup.get_state(marker.name)
                 detailed_scale = float(detailed_scale) if detailed_scale else unreal_scale
-
+                
+                calculated_point_percentages = {}
                 # If we have data for both markers
                 if point_1_data and point_2_data:
                     calculated_point_percentages = {}
@@ -513,6 +514,7 @@ class TxtToFbx(tk.Frame):
                         calculated_point_percentages[frame] = pct 
                 else:
                     calculated_point_percentages = {frame+1: 0 for frame in range(data.get("Meta", {}).get('FrameCount'))}
+                    print(marker.name)
                 marker.percentages = calculated_point_percentages
                 
             df = pd.DataFrame({point: marker.percentages for point, marker in mapper.markers.items()})
@@ -522,13 +524,16 @@ class TxtToFbx(tk.Frame):
                 time_code = add_frame_to_timecode(time_code, fps) 
             df.insert(0,'Timecode',  time_codes) 
             df.insert(1,'BlendshapeCount',  [61 for i in range(len(time_codes))]) 
-            full_output_path = '/'.join(vadar_path.split('/')[:-1]) 
+            full_output_path = '/'.join(vadar_path.split('/')[:-1])  + '/metahuman'
+            if not os.path.exists(full_output_path ):
+                os.makedirs(full_output_path)
             df.to_excel(full_output_path+ '/Metahuman.xlsx', index=None)
             df.to_csv(full_output_path+ '/Metahuman.csv', index=None)
             self.progress.hide()
             self.progress.info(f"Exported file to {full_output_path+ '/Metahuman.csv'}")
             print(full_output_path)
-        except Exception:
+        except Exception as e:
+            print(e)
             self.progress.hide()
             self.progress.error(f"Could not convert. Please provide a valid tracking file.")
 
